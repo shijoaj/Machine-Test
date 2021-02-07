@@ -69,7 +69,7 @@ class whiteRabbit extends Controller {
             $offset = 0;
         }
         $file_name = $request->has('file_name') ? $request->get('file_name') : '';
-        $deleted_status = $request->has('deleted_status') ? $request->get('deleted_status') : '';
+        $deleted_status = $request->has('deleted_only') ? $request->get('deleted_only') : FALSE;
         $result = uploadDocuments::select('id', 'document_name', 'created_at');
 
         if ($file_name) {
@@ -78,8 +78,10 @@ class whiteRabbit extends Controller {
         if ($file_name) {
             $result = $result->where('document_format', 'LIKE', '%' . $file_name . '%');
         }
-        if ($deleted_status) {
+        if ($deleted_status == 'true') {
             $result = $result->whereRaw('deleted_at is not null');
+        } else {
+            $result = $result->whereRaw('deleted_at is null');
         }
         $sql = $result;
         $res_total = $sql->get();

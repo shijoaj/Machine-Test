@@ -61,6 +61,16 @@
                         <input id="file_nameseach" class="form-control custom_floatinput" type="text" autocomplete="off">
                     </div>
                 </div>
+                <div class="col-md-2 padding_sm">
+                    <div class="custom-float-label-control">
+                        <div class="checkbox checkbox-info inline">
+                            <input  type="checkbox" value="true" id="showdeleted_onlycheck" data-toggle="checkbox">
+                            <label for="showdeleted_onlycheck">
+                                Deleted Only
+                            </label>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-1 padding_sm">
                     <div class="custom-float-label-control">
                         <button class="btn btn-primary btn-block" onclick="searchDocuments(1)" title="" id="searchDocumentsBtn" style="padding: 2px 2px; margin-right: 10px;" >Search <i id="searchDocumentsSpin" class="fa fa-search"></i></button>
@@ -160,7 +170,8 @@
         var url = '<?= route('extensionsvalley.admin.getDocumentData') ?>';
         var file_token = $('#hidden_filetoken').val();
         var file_name = $('#file_nameseach').val();
-        var param = {_token: file_token, file_name: file_name, page: page_value};
+        var deleted_only = document.getElementById('showdeleted_onlycheck').checked;
+        var param = {_token: file_token, file_name: file_name, deleted_only: deleted_only, page: page_value};
         $.ajax({
             type: "POST",
             url: url,
