@@ -72,5 +72,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin', 'auth:admin']], fun
         'as' => 'extensionsvalley.admin.getDocumentData',
         'uses' => 'ExtensionsValley\Dashboard\whiteRabbit@getDocumentData',
     ]);
+    Route::post('/deleteDocumentData', [
+        'name' => 'delete Document Data',
+        'as' => 'extensionsvalley.admin.deleteDocumentData',
+        'uses' => 'ExtensionsValley\Dashboard\whiteRabbit@deleteDocumentData',
+    ]);
 
 });

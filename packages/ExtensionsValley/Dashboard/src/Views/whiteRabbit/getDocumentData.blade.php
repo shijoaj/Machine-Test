@@ -13,10 +13,10 @@
             if (count($result) != 0) {
                 foreach ($result as $each) {
                     ?>
-                    <tr id="tableuplodedrow<?= $each->created_at ?>">
-                        <td><?= $each->document_name ?></td>
-                        <td><?= $each->created_at ?></td>
-                        <td><button class="btn btn-danger" onclick="delete_uploadedfile(<?= $each->id ?>)" title="" id="delete_uploadedfilebtn<?= $each->created_at ?>" style="padding: 2px 2px; margin-right: 10px;" ><i id="deleted__uploaded_filespin<?= $each->created_at ?>" class="fa fa-trash"></i></button></td>
+                    <tr id="tableuplodedrow<?= $each->id ?>">
+                        <td style="text-align: left"><?= $each->document_name ?></td>
+                        <td style="text-align: left"><?= $each->created_at ?></td>
+                        <td><button class="btn btn-danger" onclick="delete_uploadedfile(<?= $each->id ?>)" title="" id="delete_uploadedfilebtn<?= $each->created_at ?>" style="padding: 2px 5px; margin-right: 10px;" ><i id="deleted__uploaded_filespin<?= $each->created_at ?>" class="fa fa-trash"></i></button></td>
                     </tr>
                     <?php
                 }

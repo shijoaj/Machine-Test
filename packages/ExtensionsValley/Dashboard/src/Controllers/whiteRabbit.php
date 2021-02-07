@@ -69,7 +69,7 @@ class whiteRabbit extends Controller {
             $offset = 0;
         }
         $file_name = $request->has('file_name') ? $request->get('file_name') : '';
-        $deleted_status = $request->has('deleted_status') ? $request->get('deleted_status') : 'All';
+        $deleted_status = $request->has('deleted_status') ? $request->get('deleted_status') : '';
         $result = uploadDocuments::select('id', 'document_name', 'created_at');
 
         if ($file_name) {
@@ -78,19 +78,10 @@ class whiteRabbit extends Controller {
         if ($file_name) {
             $result = $result->where('document_format', 'LIKE', '%' . $file_name . '%');
         }
-//        if ($discharge_status != 'All') {
-//            $result = $result->where('tiamd_discharge_details.complete_status', $discharge_status);
-//        }
-//
-//        if ($attendingphysician != 'All' && $attending_phy_name != 'All') {
-//            $result = $result->where('v.attending_physician', $attending_phy_name);
-//        }
+        if ($deleted_status) {
+            $result = $result->whereRaw('deleted_at is not null');
+        }
         $sql = $result;
-//               
-
-
-
-
         $res_total = $sql->get();
         $res = $sql->limit($limit)->offset($offset)->get();
         $total = $res_total->count();
@@ -101,6 +92,17 @@ class whiteRabbit extends Controller {
         $viewData ['offset'] = $offset;
         $viewData['result'] = $res;
         return $viewData;
+    }
+
+    public function deleteDocumentData(Request $request) {
+        $uploaded_id = $request->has('uploaded_id') ? $request->get('uploaded_id') : '';
+        $summary_update = array(
+            'status' => 0,
+            'updated_at' => date('Y-m-d H:i:s'),
+            'deleted_at' => date('Y-m-d H:i:s'),
+        );
+        $status = uploadDocuments::where('id', $uploaded_id)->update($summary_update);
+        echo $status;
     }
 
 }

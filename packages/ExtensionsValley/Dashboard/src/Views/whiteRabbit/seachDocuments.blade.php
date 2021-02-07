@@ -11,6 +11,7 @@
 {!! Html::style('packages/extensionsvalley/dashboard/css/bootstrap_3.min.css?'.config('tia.asset_version')) !!}
 {!! Html::style('packages/extensionsvalley/dashboard/js/toaster/toastr.css?'.config('tia.asset_version')) !!}
 {!! Html::script('packages/extensionsvalley/dashboard/js/toaster/toastr.min.js?'.config('tia.asset_version')) !!}
+{!! Html::script('packages/extensionsvalley/dashboard/js/bootbox/javascript/bootbox.js?'.config('tia.asset_version')) !!}
 @include('Dashboard::extension.bootstrap_datetimepicker_js')
 @stop
 @section('content-area')
@@ -85,6 +86,7 @@
     $(document).ready(function () {
         setTimeout(function () {
             $('#menu_toggle').click();
+            searchDocuments(1);
         }, 500);
         $("#uploadfileForm").on('submit', function (e) {
             e.preventDefault();
@@ -106,9 +108,9 @@
                         },
                         success: function (data) {
                             if (data) {
-                                 searchDocuments(1);
+                                searchDocuments(1);
                                 toastr.success("Successfully Uploaded");
-                                 $("#changedpimagebtn").modal('toggle');
+                                $("#changedpimagebtn").modal('toggle');
                             } else {
                                 toastr.error("Image Size is large please insert a try another.");
                             }
@@ -154,7 +156,6 @@
         var page = $(this).attr('href').split('page=')[1];
         searchDocuments(page);
     });
-
     function searchDocuments(page_value) {
         var url = '<?= route('extensionsvalley.admin.getDocumentData') ?>';
         var file_token = $('#hidden_filetoken').val();
@@ -179,6 +180,55 @@
                 $('#searchDocumentsBtn').attr('disabled', false);
             }, error: function () {
                 toastr.error("Error Please Check Your Internet Connection");
+            }
+        });
+    }
+
+    function delete_uploadedfile(uploaded_id) {
+        bootbox.confirm({
+            message: "Are you sure delete this file",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-danger'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-primary'
+                }
+            },
+            callback: function (result) {
+                if (result)
+                {
+                    var url = '<?= route('extensionsvalley.admin.deleteDocumentData') ?>';
+                    var file_token = $('#hidden_filetoken').val();
+                    var param = {_token: file_token, uploaded_id: uploaded_id};
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        cache: false,
+                        data: param,
+                        beforeSend: function () {
+                            $('#delete_uploadedfilebtn' + uploaded_id).attr('disabled', true);
+                            $('#deleted__uploaded_filespin' + uploaded_id).removeClass('fa fa-search');
+                            $('#deleted__uploaded_filespin' + uploaded_id).addClass('fa fa-spinner fa-spin');
+                        },
+                        success: function (data) {
+                            if (data) {
+                                $('#tableuplodedrow' + uploaded_id).remove();
+                                toastr.success("Successfully Removed");
+                            } else {
+                                $('#delete_uploadedfilebtn' + uploaded_id).removeClass('fa fa-spinner fa-spin');
+                                $('#deleted__uploaded_filespin' + uploaded_id).addClass('fa fa-search');
+                                $('#deleted__uploaded_filespin' + uploaded_id).attr('disabled', false);
+                            }
+                        },
+                        complete: function () {
+                        }, error: function () {
+                            toastr.error("Error Please Check Your Internet Connection");
+                        }
+                    });
+                }
             }
         });
     }
