@@ -39,7 +39,7 @@ class PasswordController extends Controller
         $title = 'ExtensionsValley - Reset Password';
 
         if (\Auth::guard('admin')->check()) {
-            return redirect()->route('extensionsvalley.admin.dashboard')->with(['message' => 'Welcome Back ' . \Auth::guard('admin')->user()->name . '!']);
+            return redirect()->route('extensionsvalley.admin.searchDocuments')->with(['message' => 'Welcome Back ' . \Auth::guard('admin')->user()->name . '!']);
         }
 
         return \View::make('Dashboard::login.password', compact('title'));
@@ -82,7 +82,7 @@ class PasswordController extends Controller
         $title = 'ExtensionsValley - Create New Password';
 
         if (\Auth::guard('admin')->check()) {
-            return redirect()->route('extensionsvalley.admin.dashboard')->with(['message' => 'Welcome Back ' . \Auth::guard('admin')->user()->name . '!']);
+            return redirect()->route('extensionsvalley.admin.searchDocuments')->with(['message' => 'Welcome Back ' . \Auth::guard('admin')->user()->name . '!']);
         }
 
         return \View::make('Dashboard::login.passwordconfirm', compact('title', 'token'));

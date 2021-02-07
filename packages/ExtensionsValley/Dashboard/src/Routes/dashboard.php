@@ -7,7 +7,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin', 'auth:admin']], fun
         'uses' => 'ExtensionsValley\Dashboard\DashboardController@getDashboard',
     ]);
 
-    /* Common routes for CRUD*/
+    /* Common routes for CRUD */
 
     Route::get('{vendor}/{namespace}/list/{tables}', [
         'middleware' => 'acl',
@@ -17,7 +17,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin', 'auth:admin']], fun
     ]);
     /* Common routes for CRUF */
 
-    /* Common routes for Ajax Tables*/
+    /* Common routes for Ajax Tables */
 
     Route::any('{namespace}/list/{tables}/ajaxview', [
         'name' => 'View tables',
@@ -55,6 +55,22 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin', 'auth:admin']], fun
         'name' => 'update settings',
         'as' => 'extensionsvalley.admin.updatesettings',
         'uses' => 'ExtensionsValley\Dashboard\DashboardController@updateSettings',
+    ]);
+
+    Route::any('/searchDocuments', [
+        'name' => 'Search Documents',
+        'as' => 'extensionsvalley.admin.searchDocuments',
+        'uses' => 'ExtensionsValley\Dashboard\whiteRabbit@searchDocuments',
+    ]);
+    Route::post('/uploadFiles', [
+        'name' => 'upload Files',
+        'as' => 'extensionsvalley.admin.uploadFiles',
+        'uses' => 'ExtensionsValley\Dashboard\whiteRabbit@uploadFiles',
+    ]);
+    Route::post('/getDocumentData', [
+        'name' => 'Get Document Data',
+        'as' => 'extensionsvalley.admin.getDocumentData',
+        'uses' => 'ExtensionsValley\Dashboard\whiteRabbit@getDocumentData',
     ]);
 
 });

@@ -44,7 +44,6 @@
     @yield('content-header')
     @yield('content-area')
     <!-- Footer Starts-->
-    @include('Dashboard::dashboard.partials.footer')
     <!-- Footer Ends-->
     </div>
 </div>

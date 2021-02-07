@@ -34,7 +34,7 @@ class AclPermission
            }
 
            if($action === 0){
-                return redirect()->route('extensionsvalley.admin.dashboard')->with(['error' => 'Invalid Permission Defined!']);
+                return redirect()->route('extensionsvalley.admin.searchDocuments')->with(['error' => 'Invalid Permission Defined!']);
                 exit;
            }
             $count = \DB::table('acl_permission')
@@ -50,7 +50,7 @@ class AclPermission
                 ->count();
         }
         if ((int)$count == 0) {
-            return redirect()->route('extensionsvalley.admin.dashboard')->with(['error' => 'Access Permission Denied!']);
+            return redirect()->route('extensionsvalley.admin.searchDocuments')->with(['error' => 'Access Permission Denied!']);
         }
 
         return $next($request);
